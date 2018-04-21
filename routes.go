@@ -38,4 +38,9 @@ var routes = Routes{
 		"/random",
 		QuoteRandom,
 	},
+	Route{
+		"GET",
+		"/this/is/for/alex/only/create",
+		QuoteRandom,
+	},
 }
