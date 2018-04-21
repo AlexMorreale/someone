@@ -39,8 +39,8 @@ var routes = Routes{
 		QuoteRandom,
 	},
 	Route{
-		"GET",
-		"/this/is/for/alex/only/create",
-		QuoteRandom,
+		"POST",
+		"/this/is/for/alex/only/to/create",
+		ApiQuoteCreate,
 	},
 }
