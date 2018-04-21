@@ -1,11 +1,18 @@
-
+# multi-stage docker build
 # build stage
-FROM golang:alpine AS build-env
-ADD . /src
-RUN cd /src && go build -o goapp
+FROM golang:latest AS build-env
+ADD . /src/someone
+ENV GOPATH=/
+
+RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+RUN cd /src/someone \
+    && dep ensure \
+    && GOOS=linux GOARCH=amd64 CGO_ENABLED=0 go build -o someone
 
 # final stage
 FROM alpine
 WORKDIR /app
-COPY --from=build-env /src/goapp /app/
-ENTRYPOINT ./goapp
+COPY --from=build-env /src/someone/someone /app/
+RUN pwd && ls -la .
+ENTRYPOINT ./someone
