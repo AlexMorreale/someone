@@ -13,6 +13,7 @@ RUN cd /src/someone \
 # final stage
 FROM alpine
 WORKDIR /app
+ADD ./tmpl ./tmpl
 COPY --from=build-env /src/someone/someone /app/
 RUN pwd && ls -la .
 ENTRYPOINT ./someone

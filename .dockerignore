@@ -2,3 +2,5 @@
 README.md
 ./someone
 *.swp
+tmpl/*.swp
+

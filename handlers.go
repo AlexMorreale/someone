@@ -1,11 +1,20 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	mux "github.com/julienschmidt/httprouter"
+	"html/template"
 	"net/http"
 )
+
+var templates = template.Must(template.ParseGlob("tmpl/*"))
+
+func renderTemplate(w http.ResponseWriter, tmpl string, q Quotes) {
+	err := templates.ExecuteTemplate(w, tmpl+".html", q)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
+}
 
 func Index(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 	fmt.Fprintf(w, "<h1>Hello World</h1>")
@@ -13,12 +22,16 @@ func Index(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 
 func QuoteAll(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 	var quotes Quotes
-	quotes = FindAll() // We'll work on this
-	HandleError(json.NewEncoder(w).Encode(quotes))
+	quotes = FindAll()
+
+	renderTemplate(w, "all", quotes)
+
 }
 
 func QuoteRandom(w http.ResponseWriter, r *http.Request, _ mux.Params) {
 	var quote Quote
-	quote = FindRandom() // We'll work on this
-	HandleError(json.NewEncoder(w).Encode(quote))
+	var quotes Quotes
+	quote = FindRandom()
+	quotes = append(quotes, quote)
+	renderTemplate(w, "all", quotes)
 }

@@ -20,6 +20,16 @@ var routes = Routes{
 	},
 	Route{
 		"GET",
+		"/api/all",
+		ApiQuoteAll,
+	},
+	Route{
+		"GET",
+		"/api/random",
+		ApiQuoteRandom,
+	},
+	Route{
+		"GET",
 		"/all",
 		QuoteAll,
 	},
