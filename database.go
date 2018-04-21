@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/garyburd/redigo/redis"
+	"os"
 	"strconv"
 	"time"
 )
@@ -11,7 +12,7 @@ import (
 var currentPostId int
 
 func RedisConnect() redis.Conn {
-	c, err := redis.Dial("tcp", ":6379")
+	c, err := redis.Dial("tcp", os.Getenv("REDIS_URL"))
 	HandleError(err)
 	return c
 }
