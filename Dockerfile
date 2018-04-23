@@ -4,6 +4,8 @@ FROM golang:latest AS build-env
 ADD . /src/someone
 ENV GOPATH=/
 
+# check for dep binary so we dont run this
+# check file || curl ....
 RUN curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
 
 RUN cd /src/someone \
